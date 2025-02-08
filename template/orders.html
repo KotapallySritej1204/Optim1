@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .order {
+            background: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .cancel-order {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order History</h1>
+
+    <div id="orders">
+        {% for order in orders %}
+        <div class="order">
+            <h2>Product: {{ order.product.title }}</h2>
+            <p>Price: ${{ order.product.price }}</p>
+            <p>Ordered on: {{ order.timestamp }}</p>
+
+            <!-- Form to cancel order -->
+            <form method="POST" action="{% url 'cancel_order' order.id %}">
+                {% csrf_token %}
+                <button type="submit" class="cancel-order">Cancel Order</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
